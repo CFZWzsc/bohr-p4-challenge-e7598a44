@@ -1,0 +1,15 @@
+{
+  "round_budget": 3,
+  "min_marginal_gain": 1,
+  "max_terms_per_query": 6,
+  "synonyms": {
+    "pyroptosis": ["inflammasome", "gasdermin", "pyroptotic"],
+    "immunotherapy": ["immune checkpoint", "pd-1", "pd-l1", "car-t"],
+    "cancer": ["tumor", "tumour", "neoplasm", "malignancy"],
+    "machine learning": ["deep learning", "neural network"],
+    "biomarker": ["predictor", "signature", "marker"],
+    "single-cell": ["scrna-seq", "single cell sequencing"],
+    "gene editing": ["crispr", "cas9"],
+    "drug resistance": ["refractory", "treatment failure", "resistance"]
+  }
+}
