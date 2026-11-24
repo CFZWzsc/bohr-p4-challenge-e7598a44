@@ -51,6 +51,18 @@ description: 当科研任务给出复杂研究问题并要求拆解子问题、�
 - 不判断文献质量或结论真伪；不做全文获取。
 - 不声称官方案例结果或任何基准分数。
 
+## Quickstart
+
+在仓库根目录 `bohrium-competition` 执行（PowerShell）：
+
+```powershell
+python -B "tracks\literature-search\challenges\challenge-e7598a44\06_code\submission\scripts\run_skill.py" --case "tracks\literature-search\challenges\challenge-e7598a44\06_code\submission\examples\demo-case\case.json" --output "$env:TEMP\demo_e7598a44\result.json"
+```
+
+- 示例输入：`examples/demo-case/case.json`，合成且自包含（`"demo": true`，3 条候选记录；DOI 均为虚构的 `10.0000/...`）。
+- **已知缺陷（当前脚本，未修复）**：`main()` 在 `os.environ["SK_RESULT_PATH"] = str(args.out)` 处引用了不存在的 `args.out`（`--output/--out` 解析后的属性名是 `args.output`）。因此上面的命令退出码为 0，却不会写入 `--output` 指定路径，只在当前工作目录留下 `{"status": "partial", "error": "AttributeError"}` 错误桩。对同一输入直接调用 `build_result()` 可得到 `status = "ok"`，且 15 个 `output_contract` 字段全部存在且非 null，说明示例输入本身合法，故障仅在这一行 CLI 接线。
+- 该用例只验证脚本可执行与输出契约齐全，不代表真实检索结论。
+
 ## 最小调用示例（示例，非官方结果）
 
 ```json
