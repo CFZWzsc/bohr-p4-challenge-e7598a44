@@ -1,0 +1,50 @@
+{
+  "demo": true,
+  "synthetic": true,
+  "case_id": "demo-e7598a44-nlrp3-saki",
+  "note": "Synthetic, self-contained demo case. Candidate records, DOIs (10.0000/...) and findings are fabricated for testing only.",
+  "question": "Does NLRP3 inflammasome activation mediate pyroptosis in sepsis-associated acute kidney injury, and which biomarkers predict progression?",
+  "output_contract": {
+    "case_id": "string",
+    "status": "string",
+    "question": "string",
+    "decomposition": "array",
+    "subquestions": "array",
+    "query_plan": "array",
+    "queries": "array",
+    "candidates": "array",
+    "results": "array",
+    "subquestion_coverage": "object",
+    "evidence": "array",
+    "stop_decision": "object",
+    "gaps": "array",
+    "coverage": "object",
+    "metrics": "object"
+  },
+  "candidates": [
+    {
+      "paper_id": "d1",
+      "title": "NLRP3 inflammasome mediates pyroptosis in septic acute kidney injury",
+      "abstract": "NLRP3 inflammasome activation drove pyroptotic death of tubular cells in sepsis-associated acute kidney injury.",
+      "year": 2019,
+      "doi": "10.0000/demo.d1",
+      "journal": "Kidney International"
+    },
+    {
+      "paper_id": "d2",
+      "title": "Urinary NLRP3 predicts progression of acute kidney injury in sepsis",
+      "abstract": "Urinary NLRP3 concentrations predicted progression of acute kidney injury in a prospective cohort of patients with sepsis.",
+      "year": 2023,
+      "doi": "10.0000/demo.d2",
+      "journal": "Critical Care"
+    },
+    {
+      "paper_id": "d3",
+      "title": "Gasdermin D as a biomarker of pyroptosis in critical illness",
+      "abstract": "Plasma gasdermin D correlated with pyroptosis markers but not with renal outcomes in critical illness.",
+      "year": 2021,
+      "doi": "10.0000/demo.d3",
+      "journal": "Journal of Critical Care"
+    }
+  ]
+}
