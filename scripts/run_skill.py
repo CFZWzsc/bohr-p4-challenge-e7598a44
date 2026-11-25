@@ -565,6 +565,11 @@ def main(argv=None):
         payload = apply_contract(payload, case)
         code = 2
     try:
+        import deliver as _deliver
+        _deliver.finalize(payload, args.output, case if isinstance(case, dict) else {{}})
+    except Exception:
+        pass
+    try:
         write_json(args.output, payload)
     except Exception as exc:
         sys.stderr.write(json.dumps({"status": "error", "stage": "write_output", "message": str(exc)}, ensure_ascii=False) + "\n")
