@@ -544,17 +544,19 @@ def main(argv=None):
     if args.rules:
         RULES_PATH = Path(args.rules)
     case = {}
+    stage = "load_case"
     try:
         case = load_json(args.case)
         if not isinstance(case, dict):
             raise ValueError("case.json root is not an object")
+        stage = "build_result"
         payload = build_result(case, args)
         code = 0
     except Exception as exc:
         payload = {
             "case_id": str(case.get("case_id") or case.get("id") or "") if isinstance(case, dict) else "",
             "status": "error",
-            "error": {"type": type(exc).__name__, "message": str(exc)[:500], "stage": "build_result"},
+            "error": {"type": type(exc).__name__, "message": str(exc)[:500], "stage": stage},
             "subquestions": [], "queries": [], "candidates": [], "ranked_results": [], "results": [],
             "subquestion_coverage": [], "evidence": {}, "gaps": [],
             "uncertainties": [{"type": "runtime_error", "detail": "Run failed; no evidence or conclusions are reported."}],
