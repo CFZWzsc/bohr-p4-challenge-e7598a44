@@ -240,9 +240,16 @@ def build_claims(items, limit=50, index=None):
         evidence = {"field_path": path}
         if loc:
             evidence["locator"] = loc
+        detail = ""
+        for key in ("reason", "decision", "status", "verdict", "note"):
+            if isinstance(item.get(key), str) and item[key].strip():
+                detail = item[key].strip()
+                break
+        text = (f"{title}：{detail}" if detail
+                else f"本次运行在该来源中报告了条目：{title}")
         claims.append({
             "claim_id": f"C{idx:03d}",
-            "text": f"本次运行在该来源中报告了条目：{title}",
+            "text": text,
             "field_path": path,
             "evidence": evidence,
             "derived_from_result": True,
@@ -325,6 +332,13 @@ def finalize(payload, out_path, case) -> dict:
                    json.dumps(validation, ensure_ascii=False, indent=2) + "\n")
 
         payload.setdefault("claims", build_claims(items, index=evidence_index(payload)))
+        if not payload.get("human_confirm"):
+            payload["human_confirm"] = [
+                {"field_path": path,
+                 "reason": "input material provides no verbatim source locator; "
+                           "the item is reported but flagged for human confirmation"}
+                for path, item in items if not locator_of(item)
+            ]
         if not payload.get("uncertainties"):
             payload["uncertainties"] = payload.get("uncertainty") or []
         payload.setdefault("changelog", [{
