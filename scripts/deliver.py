@@ -46,7 +46,8 @@ def collect_items(payload, limit=400):
     found, seen = [], set()
     skip = {"artifacts", "validation", "sources", "output_contract",
             "output_contract_fields", "contract_notes", "changelog",
-            "uncertainty", "uncertainties", "errors", "limitations"}
+            "uncertainty", "uncertainties", "errors", "limitations",
+            "evidence"}
 
     def walk(node, path, depth=0):
         if depth > 6 or len(found) >= limit:
