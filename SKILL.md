@@ -106,3 +106,10 @@ python /skills/weekly-skill/scripts/run_skill.py --case /app/work/example.json -
 3. **自检后再交付**：`case_id` 与输入一致；`output_contract` 每个字段落位；状态取脚本实现的枚举（见上方契约表）；引文为原文短句并带来源定位；计数内部闭合、无自相矛盾。
 4. **参数等价**：`--case <输入> --out <输出>` 与 `--output <输出>` 等价；默认 `/input/case.json` → `/app/output/result.json`。
 5. **平台用 3 个固定案例分别运行**：逻辑由输入驱动，不针对示例硬编码；字段命名差异走别名匹配并在 `uncertainty` 记录假设。
+
+## 运行时产物（单次运行自动写出）
+
+入口脚本在写 `result.json` 的同一次运行里还会写出：`report.md`（人读报告，每条带源定位）、
+`provenance.json`（条目 → 来源定位映射）、`records.csv`（平面结果表）、
+`validation.json`（自检项）。`output_contract` 中的产物类字段直接指向这些文件，
+无需第二次运行或人工补写。
