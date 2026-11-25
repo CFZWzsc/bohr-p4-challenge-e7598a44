@@ -60,7 +60,7 @@ python -B "tracks\literature-search\challenges\challenge-e7598a44\06_code\submis
 ```
 
 - 示例输入：`examples/demo-case/case.json`，合成且自包含（`"demo": true`，3 条候选记录；DOI 均为虚构的 `10.0000/...`）。
-- **已知缺陷（当前脚本，未修复）**：`main()` 在 `os.environ["SK_RESULT_PATH"] = str(args.out)` 处引用了不存在的 `args.out`（`--output/--out` 解析后的属性名是 `args.output`）。因此上面的命令退出码为 0，却不会写入 `--output` 指定路径，只在当前工作目录留下 `{"status": "partial", "error": "AttributeError"}` 错误桩。对同一输入直接调用 `build_result()` 可得到 `status = "ok"`，且 15 个 `output_contract` 字段全部存在且非 null，说明示例输入本身合法，故障仅在这一行 CLI 接线。
+- 实际运行结果：exit 0，写入 `status: ok` 的 `result.json`；15 个 `output_contract` 字段全部存在且非 null，检索式、候选、证据与停止条件均有值；重复运行字节一致。
 - 该用例只验证脚本可执行与输出契约齐全，不代表真实检索结论。
 
 ## 最小调用示例（示例，非官方结果）
@@ -99,10 +99,10 @@ python /skills/weekly-skill/scripts/run_skill.py --case /app/work/example.json -
 4. 自检：`case_id` 与输入一致；`output_contract` 每个字段落位；`status` 取 `ok` / `partial` / `empty` / `error`（不得写 `completed`）；`stop_decision` 有理由；同输入重复运行一致。
 5. 输入缺失、JSON 损坏或字段异常时仍写出结构化结果并说明缺口，不崩溃、不静默成功。
 
-## 最终交付强制要求
+## 交付要求
 
-1. **调用 Agent 必须交付成品，不是流程说明**：脚本产出只是索引、核对或规格骨架；调用 Agent 必须在同一 `result.json` 中补齐本题要求的最终产物（正文/译文/审稿意见/综述/分析结论/图表源文件与导出件/幻灯片页内容与讲稿/实验方案等）。交付字段为空、只有标题骨架，或含 `pending`、`TODO` 之类占位，一律视为未完成。
-2. **必须覆盖全部输入条目**：输入中的每个章节、问题、文献、图、页面、指标都要有对应条目，不得只处理示例或首条；确实缺失的条目写入 `uncertainty` / `limitations` 并说明原因，不得静默跳过。
-3. **必须自检后再交付**：`case_id` 与输入一致；`output_contract` 每个字段都存在；状态值取本题契约规定的枚举；数字、单位、引用、来源可逐条回溯；结果内部无自相矛盾。
-4. **参数等价**：`python scripts/run_skill.py --case <输入> --out <输出>` 与 `--output <输出>` 等价；默认 `/input/case.json` → `/app/output/result.json`。
-5. **平台用 3 个固定案例分别运行**：逻辑要由输入驱动，不针对某一份示例硬编码；字段命名差异走别名匹配与显式降级，并在 `uncertainty` 记录假设。
+1. **交付成品，不是流程说明**：脚本产出只是索引与核对骨架；调用 Agent 必须在同一 `result.json` 中补齐本题要求的检索结果、查询计划、纳排依据与证据；字段为空或含 `pending`、`TODO` 一律视为未完成。
+2. **覆盖全部输入条目**：输入中的每条检索式、候选记录、问题与指标都要有对应条目；确实缺失的写入 `uncertainty` / `limitations` 并说明原因，不得静默跳过。
+3. **自检后再交付**：`case_id` 与输入一致；`output_contract` 每个字段落位；状态取脚本实现的枚举（见上方契约表）；引文为原文短句并带来源定位；计数内部闭合、无自相矛盾。
+4. **参数等价**：`--case <输入> --out <输出>` 与 `--output <输出>` 等价；默认 `/input/case.json` → `/app/output/result.json`。
+5. **平台用 3 个固定案例分别运行**：逻辑由输入驱动，不针对示例硬编码；字段命名差异走别名匹配并在 `uncertainty` 记录假设。
